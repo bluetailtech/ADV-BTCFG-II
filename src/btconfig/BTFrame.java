@@ -2230,7 +2230,7 @@ public int tone_b_idx = 0;
 
 
       fw_ver.setText("Latest Avail: FW Date: 202301190134");
-      release_date.setText("Release: 2023-02-16 06:03");
+      release_date.setText("Release: 2023-06-11 07:14");
       fw_installed.setText("   Installed FW: ");
 
       setProgress(-1);
@@ -2997,6 +2997,8 @@ void update_rssi(int rssi_b) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 public void handle_tone_out(int p1, int p2, int p3, int p4) {
   try {
+    String date = dframe.getDateTimeStr(); 
+    String rec = ""; 
 
     tone_a_freq = (float) p1 / 100.0f;
     tone_b_freq = (float) p3 / 100.0f;
@@ -3006,10 +3008,20 @@ public void handle_tone_out(int p1, int p2, int p3, int p4) {
     int op = 28; //TONE_OUT EVT
     String op_name = "TONE_OUT_EVT:";
 
-    addP25Event(String.format("\r\nop=%d, %s, %3.2f, %d, %3.2f, %d", op, op_name, tone_a_freq, tone_a_idx, tone_b_freq, tone_b_idx)); 
+    rec = String.format("\r\nop=%d, %s, %3.2f, %d, %3.2f, %d", op, op_name, tone_a_freq, tone_a_idx, tone_b_freq, tone_b_idx); 
+    addP25Event(rec);
+
+    String fs =  System.getProperty("file.separator");
+    String wacn_out = String.format("%05X", current_wacn_id);
+    String sysid_out = String.format("%03X", current_sys_id);
+    String hdir = document_dir+fs+sys_mac_id+fs+"toneouts-"+current_date+".txt";
+    String header = "\r\n#tone-out";
+    if( logger_out!=null ) logger_out.write_log( rec, hdir, header );
+
 
   } catch(Exception e) {
   }
+
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

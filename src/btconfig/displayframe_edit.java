@@ -1424,7 +1424,7 @@ java.text.SimpleDateFormat formatter_date_time;
     public void show_help() {
       String kw="";
 
-      kw = kw.concat("\n$BLK_SEC$");
+      kw = kw.concat("\n$BLKS_SEC$");
       kw = kw.concat("\n$CC_FREQ$");
       kw = kw.concat("\n$DATE$");
       kw = kw.concat("\n$DEMOD$");
